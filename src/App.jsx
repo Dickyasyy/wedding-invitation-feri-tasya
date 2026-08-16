@@ -19,10 +19,17 @@ function App() {
 
   const handleOpenInvitation = () => {
     setIsTransitioning(true);
+
+    // ===== PUTAR MUSIK SAAT KLIK BUKA UNDANGAN =====
+    if (window.playWeddingMusic) {
+      window.playWeddingMusic();
+    }
+    // ===== SAMPAI SINI =====
+
     setTimeout(() => {
       setShowContent(true);
       setIsTransitioning(false);
-    }, 1500); // Dipercepat dari 2200ms → 1500ms
+    }, 1500);
   };
 
   return (
@@ -76,7 +83,7 @@ function App() {
                   className="absolute top-0 left-0 w-1/2 h-full z-20 overflow-hidden"
                   initial={{ x: 0 }}
                   animate={{ x: "-100%" }}
-                  transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }} // 1.8s → 1.2s
+                  transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }}
                 >
                   <div className="w-full h-full bg-gradient-to-r from-rose-950 via-rose-800 to-rose-700" />
                   <div
@@ -127,7 +134,7 @@ function App() {
                   className="absolute top-0 right-0 w-1/2 h-full z-20 overflow-hidden"
                   initial={{ x: 0 }}
                   animate={{ x: "100%" }}
-                  transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }} // 1.8s → 1.2s
+                  transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }}
                 >
                   <div className="w-full h-full bg-gradient-to-l from-rose-950 via-rose-800 to-rose-700" />
                   <div
@@ -183,7 +190,7 @@ function App() {
                   }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.3 }} // 0.5s → 0.3s
+                  transition={{ duration: 0.3 }}
                 />
 
                 {/* Efek cahaya menerobos tirai */}
@@ -191,88 +198,78 @@ function App() {
                   className="absolute inset-0 z-25 pointer-events-none"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.4 }} // delay 0.8s → 0.4s
+                  transition={{ duration: 0.8, delay: 0.4 }}
                 >
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-gradient-to-b from-rose-400/30 via-transparent to-transparent rounded-full blur-3xl" />
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-rose-300/20 via-amber-300/20 to-rose-300/20 rounded-full blur-3xl" />
                 </motion.div>
 
                 {/* Partikel glitter berjatuhan - dipercepat */}
-                {[...Array(30)].map(
-                  (
-                    _,
-                    i, // 40 → 30
-                  ) => (
-                    <motion.div
-                      key={i}
-                      className="absolute z-25"
-                      initial={{
-                        x: Math.random() * 100 + "%",
-                        y: -20,
-                        opacity: 0,
-                        scale: 0,
+                {[...Array(30)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute z-25"
+                    initial={{
+                      x: Math.random() * 100 + "%",
+                      y: -20,
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                    animate={{
+                      y: ["-5%", "105%"],
+                      opacity: [0, 1, 0],
+                      scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                      duration: 1.5 + Math.random() * 1,
+                      delay: 0.2 + Math.random() * 0.8,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <div
+                      className="w-1 h-1 rounded-full"
+                      style={{
+                        background: `radial-gradient(circle, #ffd700, #ff6b6b)`,
+                        boxShadow: "0 0 6px #ffd700, 0 0 12px #ff6b6b",
                       }}
-                      animate={{
-                        y: ["-5%", "105%"],
-                        opacity: [0, 1, 0],
-                        scale: [0, 1.5, 0],
-                      }}
-                      transition={{
-                        duration: 1.5 + Math.random() * 1, // 2s → 1.5s
-                        delay: 0.2 + Math.random() * 0.8, // 0.3s → 0.2s
-                        ease: "easeOut",
-                      }}
-                    >
-                      <div
-                        className="w-1 h-1 rounded-full"
-                        style={{
-                          background: `radial-gradient(circle, #ffd700, #ff6b6b)`,
-                          boxShadow: "0 0 6px #ffd700, 0 0 12px #ff6b6b",
-                        }}
-                      />
-                    </motion.div>
-                  ),
-                )}
+                    />
+                  </motion.div>
+                ))}
 
                 {/* Bunga/kelopak berjatuhan - dipercepat */}
-                {[...Array(15)].map(
-                  (
-                    _,
-                    i, // 20 → 15
-                  ) => (
-                    <motion.div
-                      key={`petal-${i}`}
-                      className="absolute z-25 text-2xl"
-                      initial={{
-                        x: Math.random() * 100 + "%",
-                        y: -50,
-                        rotate: 0,
-                        opacity: 0,
-                      }}
-                      animate={{
-                        y: ["-10%", "110%"],
-                        x: [
-                          `${Math.random() * 100}%`,
-                          `${Math.random() * 100}%`,
-                          `${Math.random() * 100}%`,
-                        ],
-                        rotate: [0, 180, 360],
-                        opacity: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: 2 + Math.random() * 1.5, // 3s → 2s
-                        delay: 0.3 + Math.random() * 1, // 0.5s → 0.3s
-                        ease: "easeInOut",
-                      }}
-                    >
-                      {
-                        ["🌸", "🌺", "🌷", "💕", "✨"][
-                          Math.floor(Math.random() * 5)
-                        ]
-                      }
-                    </motion.div>
-                  ),
-                )}
+                {[...Array(15)].map((_, i) => (
+                  <motion.div
+                    key={`petal-${i}`}
+                    className="absolute z-25 text-2xl"
+                    initial={{
+                      x: Math.random() * 100 + "%",
+                      y: -50,
+                      rotate: 0,
+                      opacity: 0,
+                    }}
+                    animate={{
+                      y: ["-10%", "110%"],
+                      x: [
+                        `${Math.random() * 100}%`,
+                        `${Math.random() * 100}%`,
+                        `${Math.random() * 100}%`,
+                      ],
+                      rotate: [0, 180, 360],
+                      opacity: [0, 1, 0],
+                    }}
+                    transition={{
+                      duration: 2 + Math.random() * 1.5,
+                      delay: 0.3 + Math.random() * 1,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    {
+                      ["🌸", "🌺", "🌷", "💕", "✨"][
+                        Math.floor(Math.random() * 5)
+                      ]
+                    }
+                  </motion.div>
+                ))}
               </>
             )}
 
@@ -282,12 +279,12 @@ function App() {
                 className="text-center text-white"
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.1 }} // 0.8s → 0.6s, delay 0.2s → 0.1s
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.4 }} // delay 0.3s → 0.2s
+                  transition={{ delay: 0.2, duration: 0.4 }}
                   className="mb-6"
                 >
                   <div className="flex items-center justify-center gap-3">
@@ -308,7 +305,7 @@ function App() {
                   className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-2"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }} // delay 0.5s → 0.3s
+                  transition={{ delay: 0.3, duration: 0.6 }}
                   style={{ textShadow: "0 2px 40px rgba(0,0,0,0.3)" }}
                 >
                   Feri & Tasya
@@ -318,7 +315,7 @@ function App() {
                   className="flex items-center justify-center gap-4 text-white/60 text-sm mb-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }} // 0.7s → 0.5s
+                  transition={{ delay: 0.5 }}
                 >
                   <span className="w-12 h-px bg-white/30"></span>
                   <span className="tracking-widest">2026</span>
@@ -329,7 +326,7 @@ function App() {
                   className="text-white/80 text-sm tracking-wider font-light"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }} // 0.8s → 0.6s
+                  transition={{ delay: 0.6 }}
                 >
                   Save The Date
                 </motion.p>
@@ -340,7 +337,7 @@ function App() {
                   className="group relative mt-8 px-10 py-3.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full font-medium hover:bg-white/20 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 0.5 }} // delay 1s → 0.7s
+                  transition={{ delay: 0.7, duration: 0.5 }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

@@ -7,19 +7,28 @@ const MusicPlayer = () => {
   const [isVisible, setIsVisible] = useState(true);
   const audioRef = useRef(null);
 
-  // Auto-play saat halaman dimuat
-  useEffect(() => {
-    const tryAutoPlay = async () => {
-      try {
-        if (audioRef.current) {
-          await audioRef.current.play();
-          setIsPlaying(true);
-        }
-      } catch (error) {
-        console.log("Autoplay blocked, user must interact");
+  // Fungsi untuk memutar musik dari luar (dipanggil dari App)
+  const playMusic = () => {
+    if (audioRef.current) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Playback failed:", error);
+          });
       }
+    }
+  };
+
+  // Expose playMusic ke global agar bisa dipanggil dari App
+  useEffect(() => {
+    window.playWeddingMusic = playMusic;
+    return () => {
+      delete window.playWeddingMusic;
     };
-    tryAutoPlay();
   }, []);
 
   const togglePlay = () => {
@@ -46,7 +55,6 @@ const MusicPlayer = () => {
     setIsVisible(!isVisible);
   };
 
-  // Handle ketika audio selesai (loop otomatis)
   const handleAudioEnded = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -56,7 +64,12 @@ const MusicPlayer = () => {
 
   return (
     <>
-      <audio ref={audioRef} loop onEnded={handleAudioEnded} preload="auto">
+      <audio
+        ref={audioRef}
+        loop
+        onEnded={handleAudioEnded}
+        preload="auto"
+      >
         <source src="/music/backsound.mp3" type="audio/mpeg" />
         Browser Anda tidak mendukung pemutar audio.
       </audio>
