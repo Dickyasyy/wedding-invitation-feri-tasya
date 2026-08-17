@@ -211,13 +211,8 @@ const Event = () => {
             <span className="w-4 md:w-6 h-px bg-rose-300/50"></span>
           </div>
 
-          {/* Judul dengan font Great Vibes - UKURAN DIPERBESAR SAMA DENGAN MEMPELAI */}
-          <h2
-            className="text-4xl md:text-5xl text-gray-800 tracking-wide"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-          >
+          {/* Judul Detail Acara dengan font Brittany Signature */}
+          <h2 className="text-4xl md:text-5xl text-gray-800 tracking-wide font-brittany">
             <span className="relative">
               <span className="relative z-10 text-gray-800">
                 Detail

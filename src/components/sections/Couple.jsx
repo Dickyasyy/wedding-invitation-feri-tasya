@@ -23,7 +23,7 @@ const Couple = () => {
           <img
             src={person.photo}
             alt={person.name}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-[center_20%]"
           />
         </div>
         <div className="absolute -inset-1 rounded-full border border-rose-200/30 -z-10" />
@@ -31,13 +31,7 @@ const Couple = () => {
       </motion.div>
 
       <div className="text-center mt-4">
-        {/* Nama pakai font Great Vibes */}
-        <h3
-          className="text-2xl md:text-3xl text-gray-800"
-          style={{
-            fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-          }}
-        >
+        <h3 className="text-2xl md:text-3xl text-gray-800 font-brittany">
           {person.name}
         </h3>
         <p className="text-sm text-gray-500 mt-1">{title}</p>
@@ -48,12 +42,8 @@ const Couple = () => {
 
   return (
     <section className="relative py-16 md:py-20 px-4 overflow-hidden">
-      {/* Background dengan bingkai elegan */}
       <div className="absolute inset-0">
-        {/* Base gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-rose-50/70 via-white to-rose-50/40"></div>
-
-        {/* Floating blobs */}
         <motion.div
           className="absolute -top-40 -right-40 w-80 h-80 bg-rose-200/15 rounded-full blur-3xl"
           animate={{
@@ -80,18 +70,10 @@ const Couple = () => {
           }}
         />
 
-        {/* ===== BINGKAI / ORNAMEN ===== */}
-
-        {/* Bingkai utama - border besar */}
         <div className="absolute inset-6 md:inset-10 border border-rose-200/30 rounded-3xl pointer-events-none" />
-
-        {/* Bingkai kedua - border medium */}
         <div className="absolute inset-10 md:inset-14 border border-rose-200/20 rounded-2xl pointer-events-none" />
-
-        {/* Bingkai ketiga - border kecil */}
         <div className="absolute inset-14 md:inset-18 border border-rose-100/20 rounded-xl pointer-events-none" />
 
-        {/* Ornamen sudut - kiri atas */}
         <div className="absolute top-8 left-8 md:top-12 md:left-12 opacity-30 pointer-events-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <path
@@ -106,8 +88,6 @@ const Couple = () => {
             />
           </svg>
         </div>
-
-        {/* Ornamen sudut - kanan atas */}
         <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-30 pointer-events-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <path
@@ -122,8 +102,6 @@ const Couple = () => {
             />
           </svg>
         </div>
-
-        {/* Ornamen sudut - kiri bawah */}
         <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 opacity-30 pointer-events-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <path
@@ -138,8 +116,6 @@ const Couple = () => {
             />
           </svg>
         </div>
-
-        {/* Ornamen sudut - kanan bawah */}
         <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 opacity-30 pointer-events-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <path
@@ -155,21 +131,17 @@ const Couple = () => {
           </svg>
         </div>
 
-        {/* Ornamen garis dekoratif di tengah atas */}
         <div className="absolute top-14 left-1/2 -translate-x-1/2 flex items-center gap-3 opacity-20 pointer-events-none">
           <span className="w-16 h-px bg-rose-300"></span>
           <Heart size={12} className="text-rose-300" fill="currentColor" />
           <span className="w-16 h-px bg-rose-300"></span>
         </div>
-
-        {/* Ornamen garis dekoratif di tengah bawah */}
         <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex items-center gap-3 opacity-20 pointer-events-none">
           <span className="w-16 h-px bg-rose-300"></span>
           <Heart size={12} className="text-rose-300" fill="currentColor" />
           <span className="w-16 h-px bg-rose-300"></span>
         </div>
 
-        {/* Decorative dots di sudut */}
         <div className="absolute top-10 right-20 opacity-15 pointer-events-none">
           <div className="flex gap-1">
             <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
@@ -186,9 +158,7 @@ const Couple = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -196,13 +166,7 @@ const Couple = () => {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-16"
         >
-          {/* Judul Mempelai pakai font Great Vibes */}
-          <h2
-            className="text-4xl md:text-5xl text-gray-800"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-          >
+          <h2 className="text-4xl md:text-5xl text-gray-800 font-brittany">
             Mempelai
           </h2>
           <div className="flex items-center justify-center gap-4 mt-4">
@@ -215,43 +179,16 @@ const Couple = () => {
           </p>
         </motion.div>
 
-        {/* Layout: Mobile stack, Desktop row with emoji in middle */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12">
-          {/* Pengantin Pria */}
           <div className="w-full md:w-1/3">
             <CoupleCard person={groom} title="Pengantin Pria" delay={0.2} />
           </div>
 
-          {/* Emoji 💑 di tengah */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="flex-shrink-0 my-4 md:my-0"
-          >
-            <div className="relative">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-rose-100 to-rose-200 flex items-center justify-center shadow-inner shadow-rose-200/50">
-                <span className="text-3xl md:text-4xl">💑</span>
-              </div>
-              <div className="absolute inset-0 rounded-full border-2 border-rose-200/40 -m-2" />
-              <div className="absolute inset-0 rounded-full border border-rose-300/20 -m-4" />
-              <motion.div
-                className="absolute inset-0 rounded-full border border-rose-300/20 -m-6"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-              />
-            </div>
-          </motion.div>
+          {/* & tanpa lingkaran */}
+          <span className="text-4xl md:text-5xl font-brittany text-rose-400">
+            &amp;
+          </span>
 
-          {/* Pengantin Wanita */}
           <div className="w-full md:w-1/3">
             <CoupleCard person={bride} title="Pengantin Wanita" delay={0.4} />
           </div>

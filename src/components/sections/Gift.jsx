@@ -123,12 +123,8 @@ const Gift = () => {
             <span className="w-4 md:w-6 h-px bg-rose-300/50"></span>
           </div>
 
-          <h2
-            className="text-4xl md:text-5xl text-gray-800 tracking-wide"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-          >
+          {/* Judul Amplop Digital - Ganti ke Brittany Signature */}
+          <h2 className="text-4xl md:text-5xl text-gray-800 tracking-wide font-brittany">
             Amplop Digital
           </h2>
 

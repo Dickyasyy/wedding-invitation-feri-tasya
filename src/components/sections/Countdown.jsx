@@ -295,24 +295,16 @@ const Countdown = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          {/* "Save The Date" dengan font Great Vibes */}
-          <p
-            className="text-2xl md:text-3xl text-rose-500 mb-6"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-          >
+          {/* "Save The Date" dengan font Brittany Signature */}
+          <p className="text-2xl md:text-3xl text-rose-500 mb-6 font-brittany">
             Save The Date
           </p>
 
           {/* Tanggal - Format terpisah */}
           <div className="flex flex-col items-center gap-1">
-            {/* Angka 23 dengan font Great Vibes */}
+            {/* Angka 23 dengan font Brittany Signature */}
             <motion.span
-              className="text-7xl md:text-8xl lg:text-9xl text-gray-800 leading-none"
-              style={{
-                fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-              }}
+              className="text-7xl md:text-8xl lg:text-9xl text-gray-800 leading-none font-brittany"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
@@ -321,7 +313,7 @@ const Countdown = () => {
               23
             </motion.span>
 
-            {/* Oktober dengan font elegan */}
+            {/* Oktober dengan font Playfair Display */}
             <motion.span
               className="text-lg md:text-xl text-gray-600 font-light tracking-[0.2em] uppercase mt-1"
               style={{ fontFamily: "'Playfair Display', serif" }}

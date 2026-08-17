@@ -1,47 +1,148 @@
+/* =========================================================
+   GOOGLE FONTS
+   WAJIB PALING ATAS SEBELUM @tailwind / CSS LAINNYA
+========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+
+/* =========================================================
+   TAILWIND
+========================================================= */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================
+   FONT BRITTANY SIGNATURE
+   FILE:
+   public/fonts/BrittanySignature.ttf
+========================================================= */
+
+@font-face {
+  font-family: "BrittanySignature";
+
+  src: url("/fonts/BrittanySignature.ttf") format("truetype");
+
+  font-weight: 400;
+  font-style: normal;
+
+  /*
+    block = browser menunggu font sebentar
+    supaya tidak langsung memakai font lain
+  */
+  font-display: block;
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+
 @layer base {
-  /* Import Google Fonts untuk font lainnya */
-  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap");
-
-  /* ===== FONT GREAT VIBES LOCAL ===== */
-  @font-face {
-    font-family: "Great Vibes";
-    src:
-      url("/src/fonts/GreatVibes-Regular.woff2") format("woff2"),
-      url("/src/fonts/GreatVibes-Regular.woff") format("woff"),
-      url("/src/fonts/GreatVibes-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
   * {
     scroll-behavior: smooth;
   }
 
-  body {
-    background-color: white;
-    color: #1f2937;
-    font-family: "Inter", sans-serif;
-    -webkit-font-smoothing: antialiased;
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
+
+  body {
+    margin: 0;
+
+    background-color: white;
+
+    color: #1f2937;
+
+    font-family: "Inter", sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* =======================================================
+     PLAYFAIR DISPLAY
+  ======================================================= */
 
   .font-serif {
     font-family: "Playfair Display", serif;
   }
 
-  /* Class untuk font Great Vibes */
-  .font-great-vibes {
-    font-family: "Great Vibes", "Playfair Display", cursive, serif;
+  /* =======================================================
+     BRITTANY SIGNATURE
+  ======================================================= */
+
+  .font-brittany {
+    font-family: "BrittanySignature" !important;
+
+    font-weight: 400 !important;
+
+    font-style: normal !important;
+
+    /*
+      Aktifkan fitur OpenType
+    */
+    font-feature-settings:
+      "liga" 1,
+      "clig" 1,
+      "calt" 1;
+
+    /*
+      Ligature dan contextual alternates
+    */
+    font-variant-ligatures: common-ligatures contextual;
+
+    /*
+      Membantu font script terlihat lebih natural
+    */
+    text-rendering: optimizeLegibility;
+
+    /*
+      Jangan sampai browser memilih font fallback
+      ketika Brittany tersedia
+    */
+    font-synthesis: none;
+
+    /*
+      Jarak antar huruf jangan ditambah
+    */
+    letter-spacing: normal;
   }
 }
 
-/* ===== ANIMASI TAMBAHAN ===== */
+/* =========================================================
+   CLASS KHUSUS UNTUK NAMA PENGANTIN
+   OPSIONAL - BISA DIPAKAI DI COVER
+========================================================= */
 
-/* Flip Card Animation untuk Countdown */
+.wedding-name {
+  font-family: "BrittanySignature" !important;
+
+  font-weight: 400 !important;
+
+  font-style: normal !important;
+
+  font-feature-settings:
+    "liga" 1,
+    "clig" 1,
+    "calt" 1;
+
+  font-variant-ligatures: common-ligatures contextual;
+
+  text-rendering: optimizeLegibility;
+
+  font-synthesis: none;
+
+  letter-spacing: normal;
+
+  line-height: 1.15;
+}
+
+/* =========================================================
+   ANIMASI FLIP CARD
+========================================================= */
+
 .perspective-500 {
   perspective: 500px;
 }
@@ -54,20 +155,26 @@
   0% {
     transform: rotateX(0deg);
   }
+
   50% {
     transform: rotateX(90deg);
   }
+
   100% {
     transform: rotateX(180deg);
   }
 }
 
-/* Animasi float untuk elemen dekorasi */
+/* =========================================================
+   ANIMASI FLOAT
+========================================================= */
+
 @keyframes float {
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -77,12 +184,16 @@
   animation: float 3s ease-in-out infinite;
 }
 
-/* Animasi pulse lembut */
+/* =========================================================
+   ANIMASI PULSE SOFT
+========================================================= */
+
 @keyframes pulse-soft {
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -92,11 +203,15 @@
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
-/* Animasi shimmer untuk efek kilau */
+/* =========================================================
+   ANIMASI SHIMMER
+========================================================= */
+
 @keyframes shimmer {
   0% {
     background-position: -200% center;
   }
+
   100% {
     background-position: 200% center;
   }
@@ -109,6 +224,8 @@
     rgba(255, 255, 255, 0.2) 50%,
     transparent 100%
   );
+
   background-size: 200% auto;
+
   animation: shimmer 3s linear infinite;
 }

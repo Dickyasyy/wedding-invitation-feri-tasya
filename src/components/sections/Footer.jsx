@@ -63,10 +63,10 @@ const Footer = () => {
           <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-gradient-to-tl from-rose-200/10 to-transparent rounded-full blur-2xl" />
 
           <div className="relative z-10 text-center">
-            {/* Nama pasangan */}
+            {/* Nama pasangan - Ganti ke Brittany Signature */}
             <div className="flex items-center justify-center gap-3 text-rose-400 mb-1">
               <Heart size={16} fill="currentColor" />
-              <span className="text-sm font-serif text-gray-700">
+              <span className="text-sm text-gray-700 font-brittany">
                 Feri &amp; Tasya
               </span>
               <Heart size={16} fill="currentColor" />

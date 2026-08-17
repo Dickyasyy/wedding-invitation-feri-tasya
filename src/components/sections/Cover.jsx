@@ -8,20 +8,15 @@ const Cover = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-      {/* Background dengan efek gradient dan foto blur */}
+      {/* Background */}
       <div className="absolute inset-0">
-        {/* Background image blur */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110 blur-sm opacity-20"
           style={{
             backgroundImage: "url('/images/couple/feri-tasya2.JPEG')",
           }}
         />
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-rose-100/60 via-white/80 to-rose-50/60"></div>
-
-        {/* Dekorasi floating */}
+        <div className="absolute inset-0 bg-gradient-to-b from-rose-100/60 via-white/80 to-rose-50/60" />
         <motion.div
           className="absolute -top-20 -right-20 w-96 h-96 bg-rose-200/30 rounded-full blur-3xl"
           animate={{
@@ -47,10 +42,8 @@ const Cover = () => {
             delay: 1,
           }}
         />
-
-        {/* Dekorasi bunga kecil */}
         <motion.div
-          className="absolute top-20 right-10 text-4xl opacity-30"
+          className="absolute top-20 right-10 text-4xl opacity-30 pointer-events-none"
           animate={{
             rotate: [0, 360],
             scale: [1, 1.2, 1],
@@ -64,7 +57,7 @@ const Cover = () => {
           🌸
         </motion.div>
         <motion.div
-          className="absolute bottom-20 left-10 text-4xl opacity-30"
+          className="absolute bottom-20 left-10 text-4xl opacity-30 pointer-events-none"
           animate={{
             rotate: [0, -360],
             scale: [1, 1.2, 1],
@@ -80,7 +73,7 @@ const Cover = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto">
+      <div className="relative z-10 text-center w-full max-w-3xl mx-auto py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -94,15 +87,15 @@ const Cover = () => {
             className="mb-6"
           >
             <div className="flex items-center justify-center gap-3">
-              <span className="w-16 h-px bg-rose-300"></span>
+              <span className="w-12 sm:w-16 h-px bg-rose-300" />
               <Heart size={16} className="text-rose-400" fill="currentColor" />
-              <span className="w-16 h-px bg-rose-300"></span>
+              <span className="w-12 sm:w-16 h-px bg-rose-300" />
             </div>
           </motion.div>
 
           {/* Label */}
           <motion.p
-            className="text-sm text-rose-500 tracking-[0.3em] uppercase mb-3 font-light"
+            className="text-xs sm:text-sm text-rose-500 tracking-[0.3em] uppercase mb-5 font-light"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -110,51 +103,90 @@ const Cover = () => {
             The Wedding of
           </motion.p>
 
-          {/* Nama pengantin dengan font Great Vibes - UKURAN DIPERKECIL */}
-          <motion.h1
-            className="text-4xl md:text-6xl text-gray-800 mb-4 leading-tight"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            {groom.name}
-            <span
-              className="block text-2xl md:text-3xl text-rose-400 font-light mt-1"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+          {/* =====================================================
+              NAMA PENGANTIN - FORMAT 3 BARIS
+              
+              SEPERTI DI COUPLE:
+              
+              Feri Setiawan
+                  &
+              Tasya Salsabila
+              
+              PAKAI FONT BRITTANY SIGNATURE (NYAMBUNG)
+          ===================================================== */}
+          <div className="text-gray-800 mb-5 flex flex-col items-center justify-center w-full">
+            {/* Baris 1: Feri Setiawan */}
+            <h1
+              className="
+                font-brittany
+                text-4xl
+                sm:text-5xl
+                md:text-6xl
+                lg:text-7xl
+                leading-none
+                text-center
+                w-full
+              "
+            >
+              {groom.name}
+            </h1>
+
+            {/* Baris 2: & (ampersand) */}
+            <div
+              className="
+                font-brittany
+                text-3xl
+                sm:text-4xl
+                md:text-5xl
+                text-rose-400
+                leading-none
+                my-4
+                text-center
+                w-full
+              "
             >
               &amp;
-            </span>
-            {bride.name}
-          </motion.h1>
+            </div>
 
-          {/* Garis dekoratif */}
+            {/* Baris 3: Tasya Salsabila */}
+            <h1
+              className="
+                font-brittany
+                text-4xl
+                sm:text-5xl
+                md:text-6xl
+                lg:text-7xl
+                leading-none
+                text-center
+                w-full
+              "
+            >
+              {bride.name}
+            </h1>
+          </div>
+
+          {/* Garis + Tanggal */}
           <motion.div
-            className="flex items-center justify-center gap-4 text-sm text-gray-400 my-6"
+            className="flex items-center justify-center gap-3 sm:gap-4 text-sm text-gray-400 my-7"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <span className="w-12 h-px bg-rose-300"></span>
+            <span className="w-10 sm:w-12 h-px bg-rose-300" />
             <span className="tracking-widest font-light">23.10.2026</span>
-            <span className="w-12 h-px bg-rose-300"></span>
+            <span className="w-10 sm:w-12 h-px bg-rose-300" />
           </motion.div>
 
-          {/* Card kaca (glassmorphism) untuk Al-Quran */}
+          {/* Card Ayat */}
           <motion.div
-            className="max-w-md mx-auto mb-8"
+            className="max-w-md mx-auto mb-8 px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
             <div className="relative overflow-hidden rounded-2xl p-5 backdrop-blur-md bg-white/30 border border-white/40 shadow-lg">
-              {/* Efek glass shine */}
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-white/40 to-transparent rounded-full blur-2xl" />
               <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-tl from-rose-200/20 to-transparent rounded-full blur-2xl" />
-
-              {/* Content */}
               <div className="relative z-10">
                 <p className="text-sm text-gray-700 font-light leading-relaxed">
                   "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
@@ -167,9 +199,9 @@ const Cover = () => {
             </div>
           </motion.div>
 
-          {/* Undangan text */}
+          {/* Teks Undangan */}
           <motion.p
-            className="text-gray-600 font-light text-sm max-w-md mx-auto"
+            className="text-gray-600 font-light text-sm max-w-md mx-auto leading-relaxed px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
@@ -186,13 +218,13 @@ const Cover = () => {
             transition={{ delay: 1.2 }}
           >
             <div className="flex items-center justify-center gap-3">
-              <span className="w-12 h-px bg-rose-300"></span>
+              <span className="w-10 sm:w-12 h-px bg-rose-300" />
               <Heart
                 size={14}
                 className="text-rose-400/60"
                 fill="currentColor"
               />
-              <span className="w-12 h-px bg-rose-300"></span>
+              <span className="w-10 sm:w-12 h-px bg-rose-300" />
             </div>
           </motion.div>
         </motion.div>

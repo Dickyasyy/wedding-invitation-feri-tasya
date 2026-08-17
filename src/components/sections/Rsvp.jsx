@@ -73,7 +73,7 @@ const Rsvp = () => {
   };
 
   return (
-    <section className="relative py-16 md:py-20 px-4 overflow-hidden">
+    <section className="relative py-12 md:py-16 px-4 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-rose-100/40 via-rose-50/20 to-pink-100/30"></div>
@@ -191,12 +191,8 @@ const Rsvp = () => {
             <span className="w-4 md:w-6 h-px bg-rose-300/50"></span>
           </div>
 
-          <h2
-            className="text-4xl md:text-5xl text-gray-800 tracking-wide"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
-          >
+          {/* Judul Konfirmasi Kehadiran - Ganti ke Brittany Signature */}
+          <h2 className="text-4xl md:text-5xl text-gray-800 tracking-wide font-brittany">
             Konfirmasi Kehadiran
           </h2>
 
@@ -234,13 +230,7 @@ const Rsvp = () => {
                 <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/20">
                   <Check size={36} className="text-green-500" />
                 </div>
-                <h3
-                  className="text-2xl md:text-3xl text-gray-800"
-                  style={{
-                    fontFamily:
-                      "'Great Vibes', 'Playfair Display', cursive, serif",
-                  }}
-                >
+                <h3 className="text-2xl md:text-3xl text-gray-800 font-brittany">
                   Terima Kasih!
                 </h3>
                 <p className="text-gray-500 mt-2 font-light">

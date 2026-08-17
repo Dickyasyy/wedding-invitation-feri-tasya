@@ -4,27 +4,27 @@ export const weddingData = {
       name: "Feri Setiawan",
       fullName: "Feri Setiawan",
       parentName: "Putra dari Bapak ..... & Ibu .....",
-      photo: "/images/couple/feri-tasya3.JPEG",
+      photo: "/images/couple/feri.jpeg", 
       instagram: "@ferisetiawan",
     },
     bride: {
       name: "Tasya Salsabila",
       fullName: "Tasya Salsabila",
       parentName: "Putri dari Bapak ..... & Ibu .....",
-      photo: "/images/couple/feri-tasya4.JPEG",
+      photo: "/images/couple/tasya.jpeg",
       instagram: "@tasyasalsabila",
     },
   },
   event: {
     akad: {
-      date: "2026-10-23", // ✅ Ganti dengan tanggal yang valid
+      date: "2026-10-23", 
       time: "08:00 WIB",
       location: "Rumah Mempelai Pria",
       address: "Jl Nduduk Sampeyan",
       mapsUrl: "https://goo.gl/maps/example",
     },
     resepsi: {
-      date: "2026-10-23", // ✅ Ganti dengan tanggal yang valid
+      date: "2026-10-23", 
       time: "10:00 - 14:00 WIB",
       location: "Rumah Mempelai Pria",
       address: "Jl Nduduk Sampeyan",

@@ -3,51 +3,120 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const Gallery = () => {
+  // =========================================================
+  // STATE
+  // =========================================================
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [direction, setDirection] = useState(1); // 1: next, -1: prev
+  const [direction, setDirection] = useState(1);
 
-  // Data gambar untuk slideshow - urutan: galeri4, galeri2, galeri1
-  const slideImages = [
-    { id: 4, src: "/images/galeri4.JPEG", alt: "Galeri 4" },
-    { id: 2, src: "/images/galeri2.JPEG", alt: "Galeri 2" },
-    { id: 1, src: "/images/galeri1.JPEG", alt: "Galeri 1" },
+  // =========================================================
+  // SEMUA 11 FOTO
+  // =========================================================
+  const images = [
+    {
+      id: 1,
+      src: "/images/couple/feri-tasya1.JPEG",
+      alt: "Feri dan Tasya 1",
+    },
+    {
+      id: 2,
+      src: "/images/couple/feri-tasya2.JPEG",
+      alt: "Feri dan Tasya 2",
+    },
+    {
+      id: 3,
+      src: "/images/couple/galeri6.jpeg",
+      alt: "Galeri 6",
+    },
+    {
+      id: 4,
+      src: "/images/couple/galeri7.jpeg",
+      alt: "Galeri 7",
+    },
+    {
+      id: 5,
+      src: "/images/couple/galeri1.JPEG",
+      alt: "Galeri 1",
+    },
+    {
+      id: 6,
+      src: "/images/couple/galeri2.JPEG",
+      alt: "Galeri 2",
+    },
+    {
+      id: 7,
+      src: "/images/couple/galeri4.JPEG",
+      alt: "Galeri 4",
+    },
+    {
+      id: 8,
+      src: "/images/couple/feri-tasya3.JPEG",
+      alt: "Feri dan Tasya 3",
+    },
+    {
+      id: 9,
+      src: "/images/couple/feri-tasya4.JPEG",
+      alt: "Feri dan Tasya 4",
+    },
+    {
+      id: 10,
+      src: "/images/couple/galeri5.jpeg",
+      alt: "Galeri 5",
+    },
+    {
+      id: 11,
+      src: "/images/couple/galeri8.jpeg",
+      alt: "Galeri 8",
+    },
   ];
 
-  // Data gambar untuk card bawah - kiri: galeri2, kanan: galeri1
-  const bottomImages = [
-    { id: 2, src: "/images/galeri2.JPEG", alt: "Galeri 2" },
-    { id: 1, src: "/images/galeri1.JPEG", alt: "Galeri 1" },
-  ];
-
-  // ===== AUTO SLIDE =====
+  // =========================================================
+  // AUTO SLIDESHOW
+  // =========================================================
   useEffect(() => {
     const interval = setInterval(() => {
       setDirection(1);
-      setCurrentSlide((prev) => (prev + 1) % slideImages.length);
-    }, 4000); // Ganti slide setiap 4 detik
+
+      setCurrentSlide((prev) => {
+        return (prev + 1) % images.length;
+      });
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [slideImages.length]);
+  }, [images.length]);
 
+  // =========================================================
+  // NEXT SLIDE
+  // =========================================================
   const nextSlide = () => {
     setDirection(1);
-    setCurrentSlide((prev) => (prev + 1) % slideImages.length);
+
+    setCurrentSlide((prev) => {
+      return (prev + 1) % images.length;
+    });
   };
 
+  // =========================================================
+  // PREVIOUS SLIDE
+  // =========================================================
   const prevSlide = () => {
     setDirection(-1);
-    setCurrentSlide(
-      (prev) => (prev - 1 + slideImages.length) % slideImages.length,
-    );
+
+    setCurrentSlide((prev) => {
+      return (prev - 1 + images.length) % images.length;
+    });
   };
 
-  // Variants untuk animasi slide
+  // =========================================================
+  // SLIDE ANIMATION
+  // =========================================================
   const slideVariants = {
     enter: (direction) => ({
       x: direction > 0 ? "100%" : "-100%",
-      opacity: 0.5,
+      opacity: 0,
     }),
+
     center: {
       x: 0,
       opacity: 1,
@@ -56,9 +125,10 @@ const Gallery = () => {
         ease: "easeInOut",
       },
     },
+
     exit: (direction) => ({
       x: direction > 0 ? "-100%" : "100%",
-      opacity: 0.5,
+      opacity: 0,
       transition: {
         duration: 0.6,
         ease: "easeInOut",
@@ -66,84 +136,261 @@ const Gallery = () => {
     }),
   };
 
-  const openLightbox = (src, alt) => {
-    setSelectedImage({ src, alt });
+  // =========================================================
+  // OPEN LIGHTBOX
+  // =========================================================
+  const openLightbox = (image) => {
+    setSelectedImage(image);
   };
 
+  // =========================================================
+  // CLOSE LIGHTBOX
+  // =========================================================
   const closeLightbox = () => {
     setSelectedImage(null);
   };
 
-  const navigateLightbox = (direction) => {
-    const allImages = [...slideImages, ...bottomImages];
-    const currentIndex = allImages.findIndex(
-      (img) => img.src === selectedImage.src,
+  // =========================================================
+  // NAVIGATE LIGHTBOX
+  // =========================================================
+  const navigateLightbox = (moveDirection) => {
+    if (!selectedImage) return;
+
+    const currentIndex = images.findIndex(
+      (image) => image.src === selectedImage.src,
     );
+
+    if (currentIndex === -1) return;
+
     const newIndex =
-      (currentIndex + direction + allImages.length) % allImages.length;
-    setSelectedImage(allImages[newIndex]);
+      (currentIndex + moveDirection + images.length) % images.length;
+
+    setSelectedImage(images[newIndex]);
   };
 
-  // Component untuk gambar
-  const GalleryImage = ({ src, alt, className, onClick }) => {
-    const [imgError, setImgError] = useState(false);
+  // =========================================================
+  // GALLERY IMAGE
+  // =========================================================
+  const GalleryImage = ({ src, alt, className = "", onClick }) => {
+    const [source, setSource] = useState(src);
+    const [attempt, setAttempt] = useState(0);
+
+    const handleError = () => {
+      if (attempt >= 1) return;
+
+      setAttempt((prev) => prev + 1);
+
+      if (source.includes(".JPEG")) {
+        setSource(source.replace(".JPEG", ".jpeg"));
+      } else if (source.includes(".jpeg")) {
+        setSource(source.replace(".jpeg", ".JPEG"));
+      }
+    };
+
+    if (attempt >= 1) {
+      return (
+        <div
+          className={`
+            w-full
+            h-full
+            flex
+            flex-col
+            items-center
+            justify-center
+            bg-rose-50
+            text-gray-400
+            ${className}
+          `}
+        >
+          <span className="text-3xl md:text-4xl">📸</span>
+
+          <span className="text-[9px] md:text-xs mt-2">{alt}</span>
+        </div>
+      );
+    }
 
     return (
       <img
-        src={src}
+        src={source}
         alt={alt}
-        className={className}
+        draggable="false"
         onClick={onClick}
-        onError={(e) => {
-          if (!imgError) {
-            setImgError(true);
-            const fallbackSrc = src.replace(".JPEG", ".jpeg");
-            if (e.target.src !== fallbackSrc) {
-              e.target.src = fallbackSrc;
-            }
-          } else {
-            e.target.style.display = "none";
-            const parent = e.target.parentElement;
-            if (parent) {
-              parent.innerHTML = `
-                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-gray-200 to-gray-300 p-4">
-                  <span class="text-gray-400 text-6xl mb-2">📸</span>
-                  <span class="text-gray-500 text-sm">${alt}</span>
-                </div>
-              `;
-            }
-          }
-        }}
+        onError={handleError}
+        className={className}
       />
     );
   };
 
-  // Class untuk gambar - object-cover agar full
-  const getImageClassName = (isSlide = false) => {
-    if (isSlide) {
-      return "w-full h-full object-cover cursor-pointer";
-    }
-    return "w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-110";
+  // =========================================================
+  // GRID ITEM - TANPA ANIMASI MASUK
+  // =========================================================
+  const GridItem = ({ image, className = "" }) => {
+    return (
+      <div
+        onClick={() => openLightbox(image)}
+        className={`
+        relative
+        overflow-hidden
+        cursor-pointer
+        group
+        bg-gray-200
+        ${className}
+      `}
+      >
+        {/* Background blur - blur-md (tidak terlalu blur) */}
+        <div
+          className="
+          absolute
+          inset-[-12%]
+          bg-cover
+          bg-center
+          bg-no-repeat
+          blur-md
+          scale-110
+        "
+          style={{
+            backgroundImage: `url("${image.src}")`,
+          }}
+        />
+
+        <div
+          className="
+          absolute
+          inset-0
+          bg-black/10
+        "
+        />
+
+        <div
+          className="
+          absolute
+          inset-0
+          z-10
+          flex
+          items-center
+          justify-center
+        "
+        >
+          <GalleryImage
+            src={image.src}
+            alt={image.alt}
+            className="
+            w-full
+            h-full
+            object-contain
+            select-none
+            transition-transform
+            duration-500
+            ease-out
+            group-hover:scale-[1.03]
+          "
+          />
+        </div>
+
+        <div
+          className="
+          absolute
+          inset-0
+          z-20
+          bg-black/15
+          opacity-0
+          group-hover:opacity-100
+          transition-opacity
+          duration-300
+          pointer-events-none
+        "
+        />
+
+        <div
+          className="
+          absolute
+          z-30
+          bottom-2
+          left-1/2
+          -translate-x-1/2
+          text-white
+          text-[8px]
+          md:text-[9px]
+          tracking-wider
+          opacity-0
+          group-hover:opacity-100
+          transition-opacity
+          duration-300
+          pointer-events-none
+          whitespace-nowrap
+        "
+        >
+          Lihat Foto
+        </div>
+      </div>
+    );
   };
 
-  return (
-    <section className="relative py-16 md:py-20 px-4 overflow-hidden">
-      {/* Background mewah dengan gradient dan dekorasi */}
-      <div className="absolute inset-0">
-        {/* Base gradient mewah */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100/40 via-rose-50/20 to-pink-100/30"></div>
+  // =========================================================
+  // FOTO SLIDE AKTIF
+  // =========================================================
+  const activeImage = images[currentSlide];
 
-        {/* Background blur effect */}
+  return (
+    <section
+      className="
+    relative
+    py-12
+    md:py-16
+    px-2
+    sm:px-3
+    md:px-4
+    overflow-hidden
+    mb-0
+  "
+    >
+      {/* =====================================================
+          BACKGROUND SECTION
+      ====================================================== */}
+      <div
+        className="
+          absolute
+          inset-0
+          pointer-events-none
+        "
+      >
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10 scale-110 blur-sm"
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-br
+            from-rose-100/40
+            via-rose-50/20
+            to-pink-100/30
+          "
+        />
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-cover
+            bg-center
+            bg-no-repeat
+            opacity-10
+            scale-110
+          "
           style={{
             backgroundImage: "url('/images/couple/feri-tasya2.JPEG')",
           }}
         />
 
-        {/* Dekorasi floating blobs - lebih banyak dan mewah */}
         <motion.div
-          className="absolute -top-40 -right-40 w-96 h-96 bg-rose-200/20 rounded-full blur-3xl"
+          className="
+            absolute
+            -top-40
+            -right-40
+            w-96
+            h-96
+            bg-rose-200/20
+            rounded-full
+            blur-3xl
+          "
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 40, 0],
@@ -154,8 +401,18 @@ const Gallery = () => {
             repeatType: "reverse",
           }}
         />
+
         <motion.div
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-200/20 rounded-full blur-3xl"
+          className="
+            absolute
+            -bottom-40
+            -left-40
+            w-96
+            h-96
+            bg-pink-200/20
+            rounded-full
+            blur-3xl
+          "
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -40, 0],
@@ -167,8 +424,20 @@ const Gallery = () => {
             delay: 1,
           }}
         />
+
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-rose-100/10 rounded-full blur-3xl"
+          className="
+            absolute
+            top-1/2
+            left-1/2
+            -translate-x-1/2
+            -translate-y-1/2
+            w-[500px]
+            h-[500px]
+            bg-rose-100/10
+            rounded-full
+            blur-3xl
+          "
           animate={{
             scale: [1, 1.1, 1],
           }}
@@ -179,292 +448,602 @@ const Gallery = () => {
           }}
         />
 
-        {/* Dekorasi bunga dan bintang */}
         <motion.div
-          className="absolute top-10 right-10 text-3xl opacity-20 pointer-events-none"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="
+            absolute
+            top-10
+            right-10
+            text-3xl
+            opacity-20
+          "
+          animate={{
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear",
+          }}
         >
           ✨
-        </motion.div>
-        <motion.div
-          className="absolute bottom-10 left-10 text-3xl opacity-20 pointer-events-none"
-          animate={{ rotate: [0, -360] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        >
-          ✨
-        </motion.div>
-        <motion.div
-          className="absolute top-20 left-20 text-2xl opacity-15 pointer-events-none"
-          animate={{
-            y: [0, 15, 0],
-            rotate: [0, 10, -10, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        >
-          🌸
-        </motion.div>
-        <motion.div
-          className="absolute bottom-20 right-20 text-2xl opacity-15 pointer-events-none"
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, -10, 10, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        >
-          🌷
-        </motion.div>
-        <motion.div
-          className="absolute top-1/3 right-32 text-xl opacity-10 pointer-events-none"
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        >
-          🕊️
-        </motion.div>
-        <motion.div
-          className="absolute bottom-1/3 left-32 text-xl opacity-10 pointer-events-none"
-          animate={{
-            y: [0, -10, 0],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        >
-          🕊️
         </motion.div>
 
-        {/* Decorative dots - elegant */}
-        <div className="absolute top-10 right-20 opacity-20 pointer-events-none">
-          <div className="flex gap-2">
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-          </div>
-        </div>
-        <div className="absolute bottom-10 left-20 opacity-20 pointer-events-none">
-          <div className="flex gap-2">
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-            <span className="w-1 h-1 bg-rose-300 rounded-full"></span>
-          </div>
-        </div>
+        <motion.div
+          className="
+            absolute
+            bottom-10
+            left-10
+            text-3xl
+            opacity-20
+          "
+          animate={{
+            rotate: [0, -360],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          ✨
+        </motion.div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto">
-        {/* Header */}
+      {/* =====================================================
+          CONTENT
+      ====================================================== */}
+      <div
+        className="
+          relative
+          z-10
+          w-full
+          max-w-5xl
+          mx-auto
+        "
+      >
+        {/* ===================================================
+            HEADER
+        ==================================================== */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 md:mb-12"
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="
+            text-center
+            mb-8
+            md:mb-12
+          "
         >
-          <div className="flex items-center justify-center gap-1.5 md:gap-2 mb-1 md:mb-2">
-            <span className="w-4 md:w-6 h-px bg-rose-300/50"></span>
-            <span className="text-rose-300/40 text-[8px] md:text-[10px]">
+          <div
+            className="
+              flex
+              items-center
+              justify-center
+              gap-1.5
+              md:gap-2
+              mb-1
+              md:mb-2
+            "
+          >
+            <span
+              className="
+                w-4
+                md:w-6
+                h-px
+                bg-rose-300/50
+              "
+            />
+
+            <span
+              className="
+                text-rose-300/40
+                text-[8px]
+                md:text-[10px]
+              "
+            >
               ✦
             </span>
+
             <Heart
               size={8}
-              className="text-rose-400/50 md:w-3 md:h-3"
+              className="
+                text-rose-400/50
+                md:w-3
+                md:h-3
+              "
               fill="currentColor"
             />
-            <span className="text-rose-300/40 text-[8px] md:text-[10px]">
+
+            <span
+              className="
+                text-rose-300/40
+                text-[8px]
+                md:text-[10px]
+              "
+            >
               ✦
             </span>
-            <span className="w-4 md:w-6 h-px bg-rose-300/50"></span>
+
+            <span
+              className="
+                w-4
+                md:w-6
+                h-px
+                bg-rose-300/50
+              "
+            />
           </div>
 
           <h2
-            className="text-4xl md:text-5xl text-gray-800 tracking-wide"
-            style={{
-              fontFamily: "'Great Vibes', 'Playfair Display', cursive, serif",
-            }}
+            className="
+              text-4xl
+              md:text-5xl
+              text-gray-800
+              tracking-wide
+              font-brittany
+            "
           >
             Galeri
           </h2>
 
-          {/* Kata-kata di bawah judul */}
-          <p className="text-gray-500 text-xs md:text-sm mt-3 font-light max-w-xs md:max-w-md mx-auto leading-relaxed italic">
+          <p
+            className="
+              text-gray-500
+              text-xs
+              md:text-sm
+              mt-3
+              font-light
+              max-w-xs
+              md:max-w-md
+              mx-auto
+              leading-relaxed
+              italic
+            "
+          >
             "Setiap momen bahagia terukir dalam bingkai indah, menjadi saksi
             cinta yang abadi."
           </p>
-
-          <div className="flex items-center justify-center gap-1.5 md:gap-2 mt-3 md:mt-4">
-            <span className="w-6 md:w-8 h-px bg-rose-300/20"></span>
-            <span className="text-rose-300/20 text-[6px] md:text-[8px]">✧</span>
-            <span className="w-4 md:w-6 h-px bg-rose-300/20"></span>
-            <span className="text-rose-300/20 text-[6px] md:text-[8px]">✧</span>
-            <span className="w-6 md:w-8 h-px bg-rose-300/20"></span>
-          </div>
         </motion.div>
 
-        {/* Slideshow - Baris 1 dengan animasi slide ke kanan */}
+        {/* ===================================================
+            BARIS 1 - SLIDESHOW
+        ==================================================== */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          viewport={{ once: true }}
-          className="relative mb-4 md:mb-6 overflow-hidden"
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.2,
+            duration: 0.6,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="
+            relative
+            w-full
+            mb-[2px]
+            overflow-hidden
+          "
         >
-          <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-gray-200/50 backdrop-blur-sm aspect-[4/3] md:aspect-[16/9] border border-white/20">
-            <AnimatePresence mode="wait" custom={direction}>
+          <div
+            className="
+              relative
+              w-full
+              overflow-hidden
+              bg-transparent
+            "
+          >
+            <AnimatePresence initial={false} mode="wait" custom={direction}>
               <motion.div
-                key={currentSlide}
+                key={activeImage.id}
                 custom={direction}
                 variants={slideVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="absolute inset-0"
+                className="
+                  relative
+                  w-full
+                  flex
+                  items-center
+                  justify-center
+                "
               >
                 <GalleryImage
-                  src={slideImages[currentSlide].src}
-                  alt={slideImages[currentSlide].alt}
-                  className={getImageClassName(true)}
-                  onClick={() =>
-                    openLightbox(
-                      slideImages[currentSlide].src,
-                      slideImages[currentSlide].alt,
-                    )
-                  }
+                  src={activeImage.src}
+                  alt={activeImage.alt}
+                  onClick={() => openLightbox(activeImage)}
+                  className="
+                    block
+                    w-full
+                    h-auto
+                    max-w-full
+                    object-contain
+                    cursor-pointer
+                    select-none
+                  "
                 />
               </motion.div>
             </AnimatePresence>
 
-            {/* Tombol navigasi */}
             <button
               onClick={prevSlide}
-              className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 z-10"
+              aria-label="Foto sebelumnya"
+              className="
+                absolute
+                z-30
+                left-2
+                md:left-4
+                top-1/2
+                -translate-y-1/2
+                w-8
+                h-8
+                md:w-10
+                md:h-10
+                flex
+                items-center
+                justify-center
+                rounded-full
+                bg-white/80
+                backdrop-blur-sm
+                shadow-lg
+                hover:bg-white
+                transition-all
+                duration-300
+              "
             >
               <ChevronLeft size={20} className="text-gray-700" />
             </button>
+
             <button
               onClick={nextSlide}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 z-10"
+              aria-label="Foto berikutnya"
+              className="
+                absolute
+                z-30
+                right-2
+                md:right-4
+                top-1/2
+                -translate-y-1/2
+                w-8
+                h-8
+                md:w-10
+                md:h-10
+                flex
+                items-center
+                justify-center
+                rounded-full
+                bg-white/80
+                backdrop-blur-sm
+                shadow-lg
+                hover:bg-white
+                transition-all
+                duration-300
+              "
             >
               <ChevronRight size={20} className="text-gray-700" />
             </button>
 
-            {/* Indikator slide */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {slideImages.map((_, index) => (
+            <div
+              className="
+                absolute
+                z-30
+                bottom-2
+                md:bottom-4
+                left-1/2
+                -translate-x-1/2
+                flex
+                items-center
+                gap-1
+              "
+            >
+              {images.map((_, index) => (
                 <button
                   key={index}
+                  aria-label={`Slide ${index + 1}`}
                   onClick={() => {
                     setDirection(index > currentSlide ? 1 : -1);
+
                     setCurrentSlide(index);
                   }}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? "bg-white w-6" : "bg-white/50"
-                  }`}
+                  className={`
+                    h-1.5
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      currentSlide === index
+                        ? "w-5 bg-white shadow"
+                        : "w-1.5 bg-white/70"
+                    }
+                  `}
                 />
               ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Grid Bawah - kiri: galeri2, kanan: galeri1 */}
-        <div className="grid grid-cols-2 gap-3 md:gap-6">
-          {bottomImages.map((image, index) => (
-            <motion.div
-              key={image.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.2, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative overflow-hidden rounded-2xl shadow-2xl bg-gray-200/50 backdrop-blur-sm aspect-[4/3] cursor-pointer group border border-white/20"
-              onClick={() => openLightbox(image.src, image.alt)}
-            >
-              <GalleryImage
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-110"
-              />
-              {/* Overlay saat hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-4">
-                <span className="text-white opacity-0 group-hover:opacity-100 transition-all duration-300 text-xs md:text-sm tracking-wider font-light">
-                  Lihat Foto
-                </span>
-              </div>
-            </motion.div>
-          ))}
+        {/* ===================================================
+            BARIS 2 & 3 - GRID 11 FOTO (TANPA ANIMASI)
+        ==================================================== */}
+        <div
+          className="
+            grid
+            grid-cols-7
+            grid-rows-2
+            gap-[2px]
+            w-full
+            aspect-[4.1/1]
+          "
+        >
+          <GridItem
+            image={images[0]}
+            className="
+              col-start-1
+              row-start-1
+            "
+          />
+
+          <GridItem
+            image={images[1]}
+            className="
+              col-start-2
+              row-start-1
+            "
+          />
+
+          <GridItem
+            image={images[2]}
+            className="
+              col-start-3
+              row-start-1
+              row-span-2
+            "
+          />
+
+          <GridItem
+            image={images[3]}
+            className="
+              col-start-4
+              row-start-1
+              row-span-2
+            "
+          />
+
+          <GridItem
+            image={images[4]}
+            className="
+              col-start-5
+              row-start-1
+            "
+          />
+
+          <GridItem
+            image={images[5]}
+            className="
+              col-start-6
+              row-start-1
+            "
+          />
+
+          <GridItem
+            image={images[6]}
+            className="
+              col-start-7
+              row-start-1
+            "
+          />
+
+          <GridItem
+            image={images[7]}
+            className="
+              col-start-1
+              row-start-2
+            "
+          />
+
+          <GridItem
+            image={images[8]}
+            className="
+              col-start-2
+              row-start-2
+            "
+          />
+
+          <GridItem
+            image={images[9]}
+            className="
+              col-start-5
+              row-start-2
+              col-span-2
+            "
+          />
+
+          <GridItem
+            image={images[10]}
+            className="
+              col-start-7
+              row-start-2
+            "
+          />
         </div>
       </div>
 
-      {/* Lightbox */}
-      {selectedImage && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          <button
+      {/* =====================================================
+          LIGHTBOX
+      ====================================================== */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            className="
+              fixed
+              inset-0
+              z-50
+              bg-black/95
+              flex
+              items-center
+              justify-center
+              p-3
+              md:p-6
+            "
             onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white/80 hover:text-white p-2 z-10"
           >
-            <X size={32} />
-          </button>
+            <button
+              onClick={closeLightbox}
+              aria-label="Tutup galeri"
+              className="
+                absolute
+                top-3
+                right-3
+                md:top-5
+                md:right-5
+                z-50
+                p-2
+                text-white/80
+                hover:text-white
+                transition
+              "
+            >
+              <X size={30} />
+            </button>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigateLightbox(-1);
-            }}
-            className="absolute left-4 text-white/80 hover:text-white p-2 z-10"
-          >
-            <ChevronLeft size={32} />
-          </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateLightbox(-1);
+              }}
+              aria-label="Foto sebelumnya"
+              className="
+                absolute
+                left-1
+                md:left-5
+                top-1/2
+                -translate-y-1/2
+                z-50
+                w-10
+                h-10
+                flex
+                items-center
+                justify-center
+                rounded-full
+                bg-white/10
+                hover:bg-white/20
+                text-white
+                transition
+              "
+            >
+              <ChevronLeft size={28} />
+            </button>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigateLightbox(1);
-            }}
-            className="absolute right-4 text-white/80 hover:text-white p-2 z-10"
-          >
-            <ChevronRight size={32} />
-          </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateLightbox(1);
+              }}
+              aria-label="Foto berikutnya"
+              className="
+                absolute
+                right-1
+                md:right-5
+                top-1/2
+                -translate-y-1/2
+                z-50
+                w-10
+                h-10
+                flex
+                items-center
+                justify-center
+                rounded-full
+                bg-white/10
+                hover:bg-white/20
+                text-white
+                transition
+              "
+            >
+              <ChevronRight size={28} />
+            </button>
 
-          <motion.img
-            key={selectedImage.src}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            src={selectedImage.src}
-            alt={selectedImage.alt}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-            onError={(e) => {
-              const fallbackSrc = selectedImage.src.replace(".JPEG", ".jpeg");
-              if (e.target.src !== fallbackSrc) {
-                e.target.src = fallbackSrc;
-              }
-            }}
-          />
-        </motion.div>
-      )}
+            <motion.img
+              key={selectedImage.src}
+              initial={{
+                scale: 0.9,
+                opacity: 0,
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.3,
+              }}
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              draggable="false"
+              onClick={(e) => e.stopPropagation()}
+              onError={(e) => {
+                if (e.target.src.includes(".JPEG")) {
+                  e.target.src = e.target.src.replace(".JPEG", ".jpeg");
+                }
+              }}
+              className="
+                max-w-[92vw]
+                max-h-[88vh]
+                w-auto
+                h-auto
+                object-contain
+                rounded-md
+                shadow-2xl
+                select-none
+              "
+            />
+
+            <div
+              className="
+                absolute
+                bottom-3
+                md:bottom-5
+                left-1/2
+                -translate-x-1/2
+                text-white/60
+                text-[9px]
+                md:text-xs
+                tracking-widest
+                uppercase
+                pointer-events-none
+                whitespace-nowrap
+              "
+            >
+              {selectedImage.alt}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
